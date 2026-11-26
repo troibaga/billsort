@@ -19,6 +19,8 @@ export interface Settings {
 }
 
 export interface Bill {
+  monthly?: { seriesId: string; day: number; until?: string };
+  monthlyInstallment?: boolean;
   id: string;
   name: string;
   category: Category;
@@ -95,6 +97,32 @@ export function calculate({ settings, bills }: Plan, on: string) {
 }
 
 export type Cutoff = ReturnType<typeof calculate>;
+
+// The last installment carries the schedule. Earlier installments become
+// independent bills so changing a future amount never rewrites past payments.
+export function installments(bills: Bill[], nextPayday: string): Bill[] {
+  return bills.flatMap(original => {
+    if (!original.monthly) return [original];
+    const schedule = original.monthly;
+    const result: Bill[] = [];
+    let bill = original;
+    while (bill.due < nextPayday || bill.paidOn) {
+      const month = dateOf(bill.due);
+      month.setUTCDate(1);
+      month.setUTCMonth(month.getUTCMonth() + 1);
+      if (month.getUTCFullYear() > 9999) break;
+      const last = new Date(Date.UTC(month.getUTCFullYear(), month.getUTCMonth() + 1, 0)).getUTCDate();
+      month.setUTCDate(Math.min(schedule.day, last));
+      const due = iso(month);
+      if (schedule.until && due.slice(0, 7) > schedule.until) break;
+      if (due >= nextPayday && !bill.paidOn) break;
+      result.push({ ...bill, monthly: undefined, monthlyInstallment: true });
+      bill = { ...bill, id: schedule.seriesId + '~' + due, due, paidOn: null };
+    }
+    result.push(bill);
+    return result;
+  });
+}
 
 export function formatDate(date: string, options: Intl.DateTimeFormatOptions) {
   return dateOf(date).toLocaleDateString('en-US', { ...options, timeZone: 'UTC' });

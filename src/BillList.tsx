@@ -49,7 +49,7 @@ export function BillList({ title, bills, cutoff, today, currency, filter, sort, 
           <div key={bill.id} className="bill-grid bill-row">
             <div className="bill-identity">
               <span className="category-icon" style={{ background, color }}><Icon name={glyph} /></span>
-              <div><strong>{bill.name}</strong><small>{bill.category}</small></div>
+              <div><strong>{bill.name}</strong><small>{bill.category}{bill.monthly ? ' · Monthly schedule' : bill.monthlyInstallment ? ' · Monthly installment' : ''}</small></div>
             </div>
             <span className="date">{formatDate(bill.due, { month: 'short', day: 'numeric', year: 'numeric' })}</span>
             <span className="priority"><span className={'status ' + status}>{label}</span></span>

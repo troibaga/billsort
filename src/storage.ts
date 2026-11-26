@@ -42,7 +42,10 @@ function validSettings(s: unknown): s is Settings {
 function validBill(b: unknown): b is Bill {
   return record(b) && typeof b.id === 'string' && typeof b.name === 'string'
     && categories.some(c => c === b.category) && typeof b.amount === 'number' && Number.isSafeInteger(b.amount)
-    && date(b.due) && (b.paidOn === null || date(b.paidOn));
+    && date(b.due) && (b.paidOn === null || date(b.paidOn))
+    && (b.monthly === undefined || (record(b.monthly) && payday(b.monthly.day)
+      && typeof b.monthly.seriesId === 'string'
+      && (b.monthly.until === undefined || date(String(b.monthly.until) + '-01'))));
 }
 
 export function loadPlan(): Plan {

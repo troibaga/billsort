@@ -40,6 +40,8 @@ function fundingHint(bill: Bill, cutoff: Cutoff) {
 
 export function BillEditor({ bill, today, currency, cutoff, onClose, onSave, onDelete, onTogglePaid }: BillEditorProps) {
   const [confirmDelete, setConfirmDelete] = useState(false);
+  const [monthly, setMonthly] = useState(Boolean(bill?.monthly));
+  const [due, setDue] = useState(bill?.due ?? today);
   const [error, setError] = useState('');
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -50,11 +52,17 @@ export function BillEditor({ bill, today, currency, cutoff, onClose, onSave, onD
       id: bill?.id ?? crypto.randomUUID(), name, paidOn: bill?.paidOn ?? null,
       category: data.get('category') as Category, due: String(data.get('due')),
       amount: Math.round(Number(data.get('amount')) * 100),
+      monthlyInstallment: bill?.monthlyInstallment,
+      monthly: monthly ? {
+        seriesId: bill?.monthly?.seriesId ?? crypto.randomUUID(),
+        day: bill?.monthly && due === bill.due ? bill.monthly.day : Number(due.slice(-2)),
+        until: String(data.get('until') || '') || undefined,
+      } : undefined,
     });
   }
   if (confirmDelete && bill) return (
     <Dialog title="Delete bill?" onClose={onClose}>
-      <p>Remove {bill.name} from your plan?</p>
+      <p>Remove {bill.name}{bill.monthly ? ' and its future monthly installments' : ''} from your plan?</p>
       <div className="action-row">
         <button className="secondary" onClick={onClose}>Cancel</button>
         <button className="danger" onClick={() => onDelete(bill)}>Delete bill</button>
@@ -66,7 +74,16 @@ export function BillEditor({ bill, today, currency, cutoff, onClose, onSave, onD
       <form onSubmit={submit}>
         <label>Bill name<input required name="name" maxLength={80} placeholder="e.g. Home internet" defaultValue={bill?.name} /></label>
         <label>Amount ({currency})<input required name="amount" type="number" min="0.01" max="999999999" step="0.01" inputMode="decimal" defaultValue={bill ? bill.amount / 100 : ''} /></label>
-        <label>Due date<input required name="due" type="date" defaultValue={bill?.due ?? today} /></label>
+        {bill?.monthlyInstallment && <p className="fieldhint">Changes apply to this installment. Edit the latest scheduled installment to change future bills.</p>}
+        <label>Bill schedule<select disabled={bill?.monthlyInstallment} value={monthly ? 'monthly' : 'once'} onChange={e => setMonthly(e.target.value === 'monthly')}>
+          <option value="once">{bill?.monthlyInstallment ? 'Single monthly installment' : 'One time · specific month'}</option>
+          <option value="monthly">Every month</option>
+        </select></label>
+        <label>{monthly ? 'First due date' : 'Due date'}<input required name="due" type="date" value={due} onChange={e => setDue(e.target.value)} /></label>
+        {monthly && <>
+          <label>Last month (optional)<input type="month" name="until" min={due.slice(0, 7)} defaultValue={bill?.monthly?.until} /></label>
+          <p className="fieldhint">Repeats on the same day, or the last day of shorter months. Leave the last month empty to keep repeating.</p>
+        </>}
         <label>Category<select name="category" defaultValue={bill?.category ?? 'Other'}>{categories.map(c => <option key={c}>{c}</option>)}</select></label>
         {bill && <p className="fieldhint">{fundingHint(bill, cutoff)}</p>}
         {error && <p className="error" role="alert">{error}</p>}
