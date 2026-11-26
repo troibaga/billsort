@@ -87,7 +87,7 @@ export function App() {
   return (
     <>
       <header><div className="bar">
-        <a className="brand" href="#overview" aria-label="BillSort overview"><span className="brandmark"><Icon name="layers" /></span>BillWise</a>
+        <a className="brand" href="#overview" aria-label="BillWise overview"><span className="brandmark"><Icon name="layers" /></span>BillWise</a>
         <nav aria-label="Main navigation">
           {Object.entries(pages).map(([name, [title]]) =>
             <a key={name} href={'#' + name} aria-current={page === name ? 'page' : undefined}>{title}</a>)}
