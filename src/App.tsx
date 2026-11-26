@@ -89,7 +89,7 @@ export function App() {
   return (
     <>
       <header><div className="bar">
-        <a className="brand" href="#overview" aria-label="BillWise overview"><img width="36" height="36" src={logo} alt="" />BillWise</a>
+        <a className="brand" href="#overview" aria-label="BillWise overview"><img width="50" height="50" src={logo} alt="" />BillWise</a>
         <nav aria-label="Main navigation">
           {Object.entries(pages).map(([name, [title]]) =>
             <a key={name} href={'#' + name} aria-current={page === name ? 'page' : undefined}>{title}</a>)}
