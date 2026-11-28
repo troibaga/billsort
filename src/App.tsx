@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useLayoutEffect, useState } from 'react';
 import { BillList } from './BillList';
 import type { Filter, Sort } from './BillList';
 import { Overview, ScheduleDetails } from './CutoffSummary';
@@ -7,6 +7,7 @@ import { Icon } from './Icon';
 import { calculate, formatDate, installments, period, today } from './planner';
 import type { Bill, Plan } from './planner';
 import { loadPlan, storageKey } from './storage';
+import { lockPlannerZoom } from './plannerViewport';
 
 const pages = {
   overview: ['Overview', 'Your paycheck and upcoming bills at a glance.'],
@@ -22,6 +23,7 @@ function currentPage(): keyof typeof pages {
 type Editor = { type: 'bill'; bill?: Bill } | { type: 'schedule' } | null;
 
 export function App() {
+  useLayoutEffect(lockPlannerZoom, []);
   const [plan, setPlan] = useState(loadPlan);
   const [page, setPage] = useState(currentPage);
   const [on, setOn] = useState(today);
