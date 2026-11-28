@@ -1,4 +1,6 @@
 const symbols = {
+  phone: <><rect x="6" y="2" width="12" height="20" rx="2.7"/><path d="M10 5h4m-3 14h2"/></>,
+  download: <><path d="M12 3v12m-5-5 5 5 5-5M4 16v4a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-4"/></>,
   layers: <><path d="m3 8 9-5 9 5-9 5-9-5Zm0 4 9 5 9-5M3 16l9 5 9-5"/></>,
   calendar: <><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M7 3v5m10-5v5M3 11h18"/></>,
   plus: <><path d="M12 5v14M5 12h14"/></>,

@@ -5,7 +5,6 @@ import { Overview, ScheduleDetails } from './CutoffSummary';
 import { BillEditor, ScheduleEditor } from './Editors';
 import { Icon } from './Icon';
 import { calculate, formatDate, installments, period, today } from './planner';
-import logo from '../img/LOGO.svg';
 import type { Bill, Plan } from './planner';
 import { loadPlan, storageKey } from './storage';
 
@@ -89,7 +88,7 @@ export function App() {
   return (
     <>
       <header><div className="bar">
-        <a className="brand" href="#overview" aria-label="BillWise overview"><img width="50" height="50" src={logo} alt="" />BillWise</a>
+        <a className="brand" href="#overview" aria-label="BillWise overview"><img width="42" height="42" src="/icons/billsort-192.png" alt="" />BillWise</a>
         <nav aria-label="Main navigation">
           {Object.entries(pages).map(([name, [title]]) =>
             <a key={name} href={'#' + name} aria-current={page === name ? 'page' : undefined}>{title}</a>)}

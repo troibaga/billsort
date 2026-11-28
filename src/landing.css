@@ -1,0 +1,86 @@
+.install-page {
+  background: #fafbfe;
+  color: #1e2942;
+  min-height: 100vh;
+}
+.install-wrap { width: min(1180px, 88%); margin: auto; }
+.install-header { background: #fff; border-bottom: 1px solid var(--border); }
+.install-bar, .install-links, .install-actions, .install-action { display: flex; align-items: center; }
+.install-bar { min-height: 76px; justify-content: space-between; gap: 16px; }
+.install-bar .brand { gap: 6px; font-size: 1.55rem; }
+.install-links { gap: 27px; font-size: .94rem; font-weight: 600; }
+.install-links a:first-child:hover, .apk-status a:hover { color: var(--blue); }
+.web-link { border: 1px solid #cbd2e0; border-radius: 9px; background: #fff; padding: 10px 17px; }
+.web-link:hover { background: #f2f5fc; }
+.install-main { padding: 0 0 clamp(48px, 7vw, 88px); }
+.install-hero { display: grid; grid-template-columns: 1.12fr 1fr; gap: clamp(28px, 5vw, 80px); align-items: center; padding: clamp(48px, 6vw, 90px) 0; }
+.hero-copy h1 { font-size: clamp(3.2rem, 6.5vw, 6rem); letter-spacing: -.072em; line-height: 1.01; font-weight: 700; }
+.hero-copy h1 em { color: var(--blue); font-weight: 500; font-family: Georgia, 'Times New Roman', serif; letter-spacing: -.065em; }
+.hero-copy > p:first-of-type { margin: 22px 0 28px; color: #526077; font-size: clamp(1.04rem, 1.5vw, 1.21rem); line-height: 1.6; max-width: 42ch; }
+.install-actions { gap: 10px; flex-wrap: wrap; }
+.install-action { min-height: 48px; justify-content: center; gap: 9px; border: 1px solid #c3ccdc; color: #243250; background: white; border-radius: 10px; padding: 12px 16px; font-size: .95rem; font-weight: 630; }
+.install-action:hover { background: #eff3ff; }
+.install-action.featured { color: white; background: var(--blue); border-color: var(--blue); box-shadow: 0 3px 6px #263e991c; }
+.install-action.featured:hover { background: #2644bb; }
+.hero-copy .apk-status { margin-top: 13px; color: #616b81; font-size: .85rem; }
+.apk-status a, .android-steps a { text-decoration: underline; text-underline-offset: 3px; }
+.paycheck-preview {
+  position: relative; overflow: hidden; isolation: isolate; margin: 0; border-radius: 24px;
+  background-color: #dce4ff;
+  background-image: radial-gradient(#8ca2e980 1px, transparent 1px), linear-gradient(145deg, #edf1ff, #c1d0ff);
+  background-size: 13px 13px, 100% 100%;
+  padding: 32px 12px 38px;
+}
+.preview-grid { position: relative; width: min(100%, 360px); height: 301px; margin: auto; }
+.receipt-shadow { position: absolute; width: 66%; left: 13%; top: 6px; transform: rotate(-8deg); filter: drop-shadow(4px 9px 6px #475d9536); }
+.sample-receipt { background: #fffefa; color: #243250; padding: 22px 18px 30px; clip-path: polygon(0 0,100% 0,100% 96%,95% 100%,90% 96%,85% 100%,80% 96%,75% 100%,70% 96%,65% 100%,60% 96%,55% 100%,50% 96%,45% 100%,40% 96%,35% 100%,30% 96%,25% 100%,20% 96%,15% 100%,10% 96%,5% 100%,0 96%); }
+.receipt-brand, .receipt-line { display: flex; align-items: center; }
+.receipt-brand { gap: 6px; color: #435689; font-weight: 700; letter-spacing: -.04em; }
+.receipt-title { font-family: Georgia, serif; font-size: 1.6rem; letter-spacing: -.04em; margin: 12px 0 8px; padding-bottom: 9px; border-bottom: 1px dashed #a5afc3; }
+.receipt-line { justify-content: space-between; gap: 4px; padding: 4px 0; font: .79rem/1.4 ui-monospace, Consolas, monospace; }
+.receipt-line b { font-weight: 600; }
+.barcode { height: 19px; width: 57%; margin-top: 9px; background: repeating-linear-gradient(90deg,#54617b 0 2px,transparent 2px 5px,#54617b 5px 6px,transparent 6px 8px,#54617b 8px 11px,transparent 11px 13px); }
+.balance-slip { position: absolute; right: 3%; bottom: 3%; width: 65%; display: flex; align-items: center; gap: 12px; color: white; background: #2c45a9; border: 1px solid #647cdb; border-radius: 14px; padding: 14px; transform: rotate(5deg); box-shadow: 0 10px 17px #344b902b; }
+.slip-icon { padding: 8px; border: 1px solid #a8bbff73; border-radius: 9px; color: #e1e9ff; }
+.balance-slip small, .balance-slip strong { display: block; }
+.balance-slip small { font-size: .78rem; color: #e5ebff; }
+.balance-slip strong { font-size: 1.65rem; letter-spacing: -.04em; line-height: 1.2; }
+.slip-check { margin-left: auto; align-self: start; color: #beecd5; }
+.paycheck-preview figcaption { position: absolute; bottom: 12px; left: 18px; font-size: .77rem; color: #46577e; }
+.installation { padding-top: 32px; border-top: 1px solid var(--border); scroll-margin-top: 20px; }
+.installation h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); }
+.installation > p { margin: 7px 0 22px; }
+.guide-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: start; }
+.guide-grid details { border: 1px solid #d5dce8; border-radius: 14px; background: white; overflow: hidden; }
+.guide-grid details[open] { border-color: #a4b6ec; }
+.guide-grid summary { display: flex; align-items: center; gap: 14px; padding: 20px; cursor: pointer; list-style: none; }
+.guide-grid summary::-webkit-details-marker { display: none; }
+.guide-grid summary:focus-visible { outline: 3px solid #798eee; outline-offset: -4px; }
+.guide-icon { width: 43px; height: 43px; display: grid; flex-shrink: 0; place-items: center; border-radius: 12px; }
+.guide-icon.ios { background: #edf1ff; color: #3854b5; }
+.guide-icon.android { background: #e4f2ed; color: #286b55; }
+.guide-grid summary strong, .guide-grid summary small { display: block; }
+.guide-grid summary strong { font-size: 1.1rem; }
+.guide-grid summary small { color: var(--muted); font-size: .88rem; margin-top: 2px; }
+.disclosure { margin-left: auto; margin-right: 3px; width: 9px; height: 9px; border: solid #62718d; border-width: 0 1.7px 1.7px 0; transform: rotate(45deg); flex-shrink: 0; }
+details[open] .disclosure { transform: rotate(225deg); }
+.guide-grid ol { margin: 0; padding: 0 24px 22px 44px; line-height: 1.55; }
+.guide-grid li { padding-left: 3px; }
+.guide-grid li + li { margin-top: 9px; }
+.android-steps p { padding: 0 22px 14px; }
+@media (max-width: 820px) {
+  .install-wrap { width: min(92%, 640px); }
+  .install-hero { grid-template-columns: 1fr; gap: 30px; }
+  .paycheck-preview { padding-block: 18px 34px; }
+  .guide-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .install-wrap { width: calc(100% - 36px); }
+  .install-bar { min-height: 65px; }
+  .install-links a:first-child { display: none; }
+  .install-hero { padding: 36px 0 30px; }
+  .hero-copy > p:first-of-type { margin: 17px 0 20px; }
+  .install-actions { display: grid; }
+  .paycheck-preview { border-radius: 18px; }
+  .guide-grid summary { padding: 16px; }
+}
