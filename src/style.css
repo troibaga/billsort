@@ -29,3 +29,40 @@ dialog input[type="date"]::-webkit-date-and-time-value {
   margin: 0;
   text-align: start;
 }
+
+.session-loading {
+  min-height: 75dvh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 12px;
+  color: var(--muted);
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .page-enter { animation: page-arrive 360ms cubic-bezier(.2, .7, .3, 1); }
+  .session-loading { animation: status-appear 180ms ease-out 120ms backwards; }
+  .account-card button[data-pending="true"]::before {
+    content: '';
+    width: .9em;
+    height: .9em;
+    border: 2px solid currentColor;
+    border-right-color: transparent;
+    border-radius: 50%;
+    animation: progress-turn 800ms linear infinite;
+  }
+}
+
+@keyframes page-arrive {
+  from { opacity: .25; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes status-appear { from { opacity: 0; } to { opacity: 1; } }
+@keyframes progress-turn { to { transform: rotate(1turn); } }
+
+.other-income { margin-block: 18px; padding-block: 16px; border-block: 1px solid var(--border); }
+.other-income h3 { font-size: 1rem; }
+.other-income fieldset { min-width: 0; margin: 14px 0; padding: 8px 12px 12px; border: 1px solid var(--border); border-radius: 9px; }
+.other-income legend { padding-inline: 4px; color: var(--muted); font-size: .875rem; }
+.other-income > button { margin-top: 8px; }
+.income-name { overflow-wrap: anywhere; }

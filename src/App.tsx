@@ -6,7 +6,7 @@ import { BillEditor, ScheduleEditor } from './Editors';
 import { Icon } from './Icon';
 import { calculate, formatDate, installments, period, today } from './planner';
 import type { Bill, Plan } from './planner';
-import { loadPlan, storageKey } from './storage';
+import { loadPlan, planStorageKey } from './storage';
 import { lockPlannerZoom } from './plannerViewport';
 
 const pages = {
@@ -22,9 +22,10 @@ function currentPage(): keyof typeof pages {
 
 type Editor = { type: 'bill'; bill?: Bill } | { type: 'schedule' } | null;
 
-export function App() {
+export function App({ userId }: { userId: string }) {
   useLayoutEffect(lockPlannerZoom, []);
-  const [plan, setPlan] = useState(loadPlan);
+  const storageKey = planStorageKey(userId);
+  const [plan, setPlan] = useState(() => loadPlan(storageKey));
   const [page, setPage] = useState(currentPage);
   const [on, setOn] = useState(today);
   const [editor, setEditor] = useState<Editor>(null);
@@ -48,7 +49,7 @@ export function App() {
     try {
       if (localStorage.getItem(storageKey) === null) localStorage.setItem(storageKey, JSON.stringify(plan));
     } catch { /* Keep the plan available in memory. */ }
-  }, [plan]);
+  }, [plan, storageKey]);
 
   useEffect(() => {
     if (!notice) return;
@@ -94,10 +95,11 @@ export function App() {
         <nav aria-label="Main navigation">
           {Object.entries(pages).map(([name, [title]]) =>
             <a key={name} href={'#' + name} aria-current={page === name ? 'page' : undefined}>{title}</a>)}
+          <a href="#account">Account</a>
         </nav>
         <span className="today"><Icon name="calendar" />{formatDate(on, { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })}</span>
       </div></header>
-      <main>
+      <main key={page} className="page-enter">
         <div className="heading">
           <div><h1>{pages[page][0]}</h1><p>{pages[page][1]}</p></div>
           <button className="primary" onClick={() => setEditor({ type: 'bill' })}><Icon name="plus" />Add bill</button>

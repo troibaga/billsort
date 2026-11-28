@@ -1,4 +1,4 @@
-const cacheName = "billsort-shell-87dc903260d51c1d";
+const cacheName = "billsort-shell-284795474041a77b";
 const shellUrls = ["/index.html","/manifest.webmanifest","/icons/apple-touch-icon.png","/icons/billsort-192.png","/icons/billsort-512.png"];
 
 self.addEventListener('install', event => {

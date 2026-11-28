@@ -9,8 +9,15 @@ export type Category = typeof categories[number];
 export type Frequency = keyof typeof frequencies;
 export type Currency = keyof typeof currencies;
 
+export interface IncomeSource {
+  id: string;
+  name: string;
+  amount: number;
+}
+
 export interface Settings {
   salary: number; // Amounts are stored in the currency's minor unit.
+  incomeSources?: IncomeSource[];
   currency: Currency;
   frequency: Frequency;
   first: number;
@@ -82,7 +89,8 @@ export function calculate({ settings, bills }: Plan, on: string) {
   const paid = bills.filter(b => b.paidOn && b.paidOn >= cycle.start && b.paidOn < cycle.next)
     .reduce((sum, bill) => sum + bill.amount, 0);
   const queue = bills.filter(b => !b.paidOn && b.due < cycle.next).sort(dueOrder);
-  const budget = Math.max(0, settings.salary - paid);
+  const income = (settings.incomeSources ?? []).reduce((sum, source) => sum + source.amount, settings.salary);
+  const budget = Math.max(0, income - paid);
   let available = budget;
   let required = 0;
   const covered = new Set<string>();
@@ -93,7 +101,7 @@ export function calculate({ settings, bills }: Plan, on: string) {
       covered.add(bill.id);
     }
   }
-  return { ...cycle, paid, queue, covered, required, available, allocated: budget - available };
+  return { ...cycle, income, paid, queue, covered, required, available, allocated: budget - available };
 }
 
 export type Cutoff = ReturnType<typeof calculate>;

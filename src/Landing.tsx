@@ -55,15 +55,15 @@ export function Landing() {
   return <div className="install-page">
     <header className="install-header"><div className="install-wrap install-bar">
       <a className="brand" href="/" aria-label="BillWise home"><img src="/icons/billsort-192.png" width="42" height="42" alt="" />BillWise</a>
-      <div className="install-links"><a href="#installation">Installation guide</a><a className="web-link" href="/#overview">Open web app</a></div>
+      <div className="install-links"><a href="#installation">Installation guide</a><a className="web-link" href="/#app">Open web app</a></div>
     </div></header>
-    <main className="install-wrap install-main">
+    <main className="install-wrap install-main page-enter">
       <section className="install-hero" aria-labelledby="install-title">
         <div className="hero-copy">
           <h1 id="install-title">Your paycheck,<br /><em>sorted.</em></h1>
           <p>Plan your bills around payday. See what’s due, what’s covered, and what’s left to spend with BillWise.</p>
           <div className="install-actions">{device === 'android' ? <>{androidAction}{iphoneAction}</> : <>{iphoneAction}{androidAction}</>}</div>
-          {!apk && <p className="apk-status" id="apk-status">Android APK awaiting upload. <a href="/#overview">Use the web app</a> today.</p>}
+          {!apk && <p className="apk-status" id="apk-status">Android APK awaiting upload. <a href="/#app">Use the web app</a> today.</p>}
         </div>
         <PaycheckPreview />
       </section>

@@ -26,7 +26,7 @@ export function Overview({ cutoff, settings, onEdit }: SummaryProps) {
           <div className="amount">{money(cutoff.available, settings.currency)}</div>
           <small>Available after planned bills</small>
           <div className="metrics">
-            <Metric label="Cutoff salary" value={money(settings.salary, settings.currency)} />
+            <Metric label="Cutoff income" value={money(cutoff.income, settings.currency)} />
             <Metric label="Planned payments" value={money(cutoff.allocated, settings.currency)} />
             <Metric label="Bills covered" value={cutoff.covered.size + ' of ' + cutoff.queue.length} />
           </div>
@@ -51,7 +51,7 @@ export function Overview({ cutoff, settings, onEdit }: SummaryProps) {
 
 export function ScheduleDetails({ cutoff, settings, onEdit }: SummaryProps) {
   const rows = [
-    ['Salary per cutoff', money(settings.salary, settings.currency)], ['Pay frequency', frequencies[settings.frequency]],
+    ['Pay frequency', frequencies[settings.frequency]],
     ['Paydays', scheduleText(settings)], ['Current cutoff', periodLabel(cutoff)], ['Next payday', shortDate(cutoff.next)],
     ['Already paid this cutoff', money(cutoff.paid, settings.currency)], ['Unpaid bills due before payday', money(cutoff.required, settings.currency)],
     ['Amount still unfunded', money(cutoff.required - cutoff.allocated, settings.currency)],
@@ -59,7 +59,14 @@ export function ScheduleDetails({ cutoff, settings, onEdit }: SummaryProps) {
   return (
     <section id="schedule" aria-label="Pay schedule"><article className="schedule-detail">
       <div className="panel-top"><h2>Salary settings</h2><button className="secondary" onClick={onEdit}><Icon name="edit" />Edit schedule</button></div>
-      <dl>{rows.map(([label, value]) => <Fragment key={label}><dt>{label}</dt><dd>{value}</dd></Fragment>)}</dl>
+      <dl>
+        <dt>Primary salary per cutoff</dt><dd>{money(settings.salary, settings.currency)}</dd>
+        {settings.incomeSources?.map(source => <Fragment key={source.id}>
+          <dt className="income-name">{source.name}</dt><dd>{money(source.amount, settings.currency)}</dd>
+        </Fragment>)}
+        {!!settings.incomeSources?.length && <><dt>Total income per cutoff</dt><dd>{money(cutoff.income, settings.currency)}</dd></>}
+        {rows.map(([label, value]) => <Fragment key={label}><dt>{label}</dt><dd>{value}</dd></Fragment>)}
+      </dl>
     </article></section>
   );
 }

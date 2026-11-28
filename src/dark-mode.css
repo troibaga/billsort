@@ -1,0 +1,54 @@
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --ink: #eef2f9;
+  --muted: #b3bfd1;
+  --border: #39485d;
+  --blue: #a4b6ff;
+  --canvas: #111824;
+  --surface: #1b2534;
+  --control: #253246;
+  color: var(--ink);
+  background-color: var(--canvas);
+}
+
+[data-theme="dark"] :is(.account-page, .install-page) {
+  background-color: var(--canvas);
+  color: var(--ink);
+}
+[data-theme="dark"] :is(header, .account-card, .period, .list, .schedule-detail, dialog, .guide-grid details) {
+  background-color: var(--surface);
+  border-color: var(--border);
+}
+[data-theme="dark"] dialog::backdrop { background: #060b14b3; }
+[data-theme="dark"] :is(.secondary, .sort, .icon-btn, .web-link, .install-action, input, select) {
+  background-color: var(--control);
+  border-color: #63748d;
+  color: var(--ink);
+}
+[data-theme="dark"] :is(.secondary, .sort, .icon-btn, .web-link, .install-action, .row-edit):hover {
+  background-color: #35445d;
+}
+[data-theme="dark"] :is(.primary, .install-action.featured) {
+  background-color: var(--blue);
+  border-color: var(--blue);
+  color: #172344;
+}
+[data-theme="dark"] :is(.primary, .install-action.featured):hover { background-color: #bdcaff; }
+[data-theme="dark"] :is(.hero-copy > p, .hero-copy .apk-status, .date, .row-edit) { color: var(--muted); }
+[data-theme="dark"] :is(.table-head, .segmented) { background: #151e2c; color: var(--muted); }
+[data-theme="dark"] :is(.table-head, .bill-row) { border-color: var(--border); }
+[data-theme="dark"] .segmented button { color: var(--muted); }
+[data-theme="dark"] .segmented button.active { background: #394a64; color: var(--ink); }
+[data-theme="dark"] :is(.account-note, .date-tile, .guide-icon.ios) { color: #d3dfff; background: #273753; }
+[data-theme="dark"] .date-tile { border-color: #536991; }
+[data-theme="dark"] .date-tile b { background: #34496e; }
+[data-theme="dark"] .error { color: #ffaeb4; }
+[data-theme="dark"] :is(.danger, .urgent) { color: #ffbcc1; background: #4d2934; }
+[data-theme="dark"] .soon { color: #f5d79c; background: #443923; }
+[data-theme="dark"] .later { color: #d2ddf3; background: #303e54; }
+[data-theme="dark"] :is(.paid, .guide-icon.android) { color: #ace9cb; background: #233f36; }
+[data-theme="dark"] .paycheck-preview {
+  background-color: #233450;
+  background-image: radial-gradient(#6c81b280 1px, transparent 1px), linear-gradient(145deg, #1d2b46, #364c72);
+}
+[data-theme="dark"] .paycheck-preview figcaption { color: #d1dcef; }

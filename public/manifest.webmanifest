@@ -3,7 +3,7 @@
   "name": "BillWise",
   "short_name": "BillWise",
   "description": "Plan your paycheck around upcoming bills.",
-  "start_url": "/#overview",
+  "start_url": "/#app",
   "scope": "/",
   "display": "standalone",
   "background_color": "#f7f8fb",

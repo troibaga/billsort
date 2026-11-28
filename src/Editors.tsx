@@ -35,7 +35,7 @@ interface BillEditorProps {
 function fundingHint(bill: Bill, cutoff: Cutoff) {
   if (bill.paidOn) return 'Paid on ' + shortDate(bill.paidOn) + '.';
   if (bill.due >= cutoff.next) return 'Due in a later cutoff.';
-  return cutoff.covered.has(bill.id) ? 'Covered by this cutoff’s salary.' : 'This cutoff has insufficient funds for this bill.';
+  return cutoff.covered.has(bill.id) ? 'Covered by this cutoff’s income.' : 'This cutoff has insufficient funds for this bill.';
 }
 
 export function BillEditor({ bill, today, currency, cutoff, onClose, onSave, onDelete, onTogglePaid }: BillEditorProps) {
@@ -107,6 +107,7 @@ interface ScheduleEditorProps {
 
 export function ScheduleEditor({ settings, onSave, onClose }: ScheduleEditorProps) {
   const [frequency, setFrequency] = useState(settings.frequency);
+  const [sources, setSources] = useState(settings.incomeSources ?? []);
   const [error, setError] = useState('');
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -117,15 +118,39 @@ export function ScheduleEditor({ settings, onSave, onClose }: ScheduleEditorProp
       setError('Choose a second payday later than the first.');
       return;
     }
+    const incomeSources = sources.map(({ id }) => ({
+      id,
+      name: String(data.get('source-name-' + id)).trim(),
+      amount: Math.round(Number(data.get('source-amount-' + id)) * 100),
+    }));
+    if (incomeSources.some(source => !source.name)) {
+      setError('Enter a name for each income source.');
+      return;
+    }
     onSave({
-      frequency, first, second, anchor: String(data.get('anchor') ?? settings.anchor),
+      incomeSources, frequency, first, second, anchor: String(data.get('anchor') ?? settings.anchor),
       currency: data.get('currency') as Currency, salary: Math.round(Number(data.get('salary')) * 100),
     });
   }
   return (
     <Dialog title="Edit pay schedule" onClose={onClose}>
       <form onSubmit={submit}>
-        <label>Take-home salary per cutoff<input required name="salary" type="number" min="0" max="999999999" step="0.01" defaultValue={settings.salary / 100} /></label>
+        <label>Primary take-home salary per cutoff<input required name="salary" type="number" min="0" max="999999999" step="0.01" defaultValue={settings.salary / 100} /></label>
+        <section className="other-income" aria-labelledby="other-income-title">
+          <h3 id="other-income-title">Other income</h3>
+          <p className="fieldhint">Add income you receive every cutoff.</p>
+          {sources.map((source, index) => <fieldset key={source.id}>
+            <legend>Income source {index + 1}</legend>
+            <label>Source name<input name={'source-name-' + source.id} defaultValue={source.name}
+              maxLength={80} placeholder="e.g. Tutoring" required /></label>
+            <label>Amount per cutoff<input name={'source-amount-' + source.id} type="number" inputMode="decimal"
+              min="0.01" max="999999999" step="0.01" required defaultValue={source.amount ? source.amount / 100 : ''} /></label>
+            <button type="button" className="secondary" aria-label={'Remove income source ' + (index + 1)}
+              onClick={() => setSources(current => current.filter(item => item.id !== source.id))}>Remove</button>
+          </fieldset>)}
+          <button type="button" className="secondary" onClick={() => setSources(current =>
+            [...current, { id: crypto.randomUUID(), name: '', amount: 0 }])}>Add income source</button>
+        </section>
         <label>Currency<select name="currency" defaultValue={settings.currency}>
           {Object.entries(currencies).map(([value, label]) => <option key={value} value={value}>{label}</option>)}
         </select></label>
